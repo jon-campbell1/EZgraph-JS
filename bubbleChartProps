@@ -1,0 +1,49 @@
+var graphProperties = {
+  container: document.getElementById("container"),
+  type: "bubble",
+  title: "My Bubble Chart",
+  minYValue:  0,
+  maxYValue: 200,
+  minXValue:  0,
+  maxXValue: 200,
+  height: 400,
+  width: 600,
+  xIntervals: 10,
+  yIntervals: 5,
+  xLabel: "Customers",
+  yLabel: "Dollars",
+  data: {
+    "Person1": {
+      color: "red",
+      bubbles: [
+        new Bubble({x:40, y:-50, size:40}),
+        new Bubble({x:50, y:70, size:40}),
+        new Bubble({x:80, y:90, size:40}),
+        new Bubble({x:140, y:160, size:40}),
+        new Bubble({x:100, y:20, size:20})
+      ]
+    },
+    "Person2": {
+      color: "blue",
+      bubbles: [
+        new Bubble({x:40, y:150, size:25}),
+        new Bubble({x:80, y:79, size:15}),
+        new Bubble({x:120, y:80, size:30}),
+        new Bubble({x:180, y:50, size:40}),
+        new Bubble({x:69, y:78, size:10})
+      ]
+    },
+    "Person3": {
+      color: "Orange",
+      bubbles: [
+        new Bubble({x:40, y:40, size:25}),
+        new Bubble({x:80, y:50, size:10}),
+        new Bubble({x:100, y:100, size:30}),
+        new Bubble({x:140, y:-10, size:40}),
+        new Bubble({x:180, y:-70, size:10})
+      ]
+    }
+  },
+  animate: "all",
+  graphKeyTitle: "People"
+}

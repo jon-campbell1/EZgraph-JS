@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Graph Library</title>
+    <script type="text/javascript" src="EZgraph.js?"></script>
+    <link href="EZgraph.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="container" ></div>
+  </body>
+  <script>
+  var graphProperties = {
+    container: document.getElementById("container"),
+    type: "scatter",
+    title: "My Graph",
+    minYValue: 0,
+    maxYValue: 100,
+    minXValue: 0,
+    maxXValue: 100,
+    height: 400,
+    width: 500,
+    xIntervals: 10,
+    yIntervals: 10,
+    xLabel: "Customers",
+    yLabel: "Dollars",
+    data: {
+      "Person2": {
+        color: "red",
+        points: [
+          new Point({x:10 , y:20}),
+          new Point({x:20, y:10}),
+          new Point({x:30, y:14}),
+          new Point({x:40, y:60}),
+          new Point({x:50, y:50})
+        ]
+      },
+      "Person1": {
+        color: "blue",
+        points: [
+          new Point({x:20, y:56}),
+          new Point({x:40, y:72}),
+          new Point({x:60, y:40}),
+          new Point({x:80, y:47}),
+          new Point({x:90, y:89})
+        ]
+      }
+    },
+    trendLine: true,
+    disableZoom: false,
+    graphKeyTitle: "People",
+    connected: true,
+    animate: "all"
+  }
+  var myGraph = new EZgraph(graphProperties);
+  </script>
+</html>
