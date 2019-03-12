@@ -102,11 +102,11 @@ class EZgraph {
     barType() {
       if(this.type=='pie') {
           this.generatePieChart();
-          this.container.style.height = this.size + 130 + "px";
+          this.container.style.height = this.size  + "px";
           return;
       }
       this.container.style.width = this.width + 100 + "px";
-      this.container.style.height = this.height + 180 + "px";
+      this.container.style.height = this.height  + "px";
       if (this.type == "bar") {
         if (this.orientation === "horizontal") {
           this.container.innerHTML = this.generateHorizontalBarGraph();
@@ -119,33 +119,28 @@ class EZgraph {
       }
       if (this.type == "bubble") {
         this.container.innerHTML = this.generateBubbleChart();
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mousedown", (e) => { startZoom(e, this.randId) }, false);
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mousemove", (e) => { setZoom(e, this.randId) }, false);
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mouseup", () => { zoom(this, this.randId) }, false);
+        this.initializeZoom();
       }
       if (this.type == "scatter") {
         this.allPoints.sort(function(a,b) { return a.x - b.x });
         this.container.innerHTML = this.generateScatterPlot();
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mousedown", (e) => { startZoom(e, this.randId) }, false);
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mousemove", (e) => { setZoom(e, this.randId) }, false);
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mouseup", () => { zoom(this, this.randId) }, false);
+        this.initializeZoom();
       }
       if (this.type == "timeline") {
         this.allPoints.sort(function(a,b) { return new Date(a.x).getTime() - new Date(b.x).getTime() });
         this.container.innerHTML = this.generateTimeLine();
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mousedown", (e) => { startZoom(e, this.randId) }, false);
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mousemove", (e) => { setZoom(e, this.randId) }, false);
-        document.getElementById("graphDataDiv" + this.randId).addEventListener("mouseup", () => { zoom(this, this.randId) }, false);
+        this.initializeZoom();
       }
     }
 
+    initializeZoom(){
+      document.getElementById("graphDataDiv" + this.randId).addEventListener("mousedown", (e) => { startZoom(e, this.randId) }, true);
+      document.getElementById("graphDataDiv" + this.randId).addEventListener("mousemove", (e) => { setZoom(e, this.randId) }, true);
+      document.getElementById("graphDataDiv" + this.randId).addEventListener("mouseup", () => { zoom(this, this.randId) }, true);
+    }
+
     generateLineGraph() {
-      var topOfGraphHTML = "";
-      var intervalsHTML = "";
-      var zoomHTML = "";
-      var intervalGuidesHTML = "";
-      var graphHTML = "";
-      var bottomOfGraphHTML = "";
+      var topOfGraphHTML = "", intervalsHTML = "", zoomHTML = "", intervalGuidesHTML = "", graphHTML = "", bottomOfGraphHTML = "";
       topOfGraphHTML += "<div class='mainGraphContainer' style=width:" + ((80 + this.width) + 4) + "px;>";
 
       //TITLE
@@ -167,9 +162,9 @@ class EZgraph {
       // INTERVALS
       intervalsHTML += "<div class='yIntervalsContainer' style='height:" + this.height + "px;'>";
       intervalsHTML += "<div class='yLabel' style='width:"+this.height+"px;'>" + this.yLabel + "</div>";
-      var bottompx = -11;
+      var bottompx = -9;
       for (let i = 0; i <= this.intervals; i ++) {
-        intervalsHTML += "<div class='yInterval' style=bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxValue - this.minValue) / this.intervals)) + this.minValue).toFixed(2).replace(".00","") + "</div>";
+        intervalsHTML += "<div class='yInterval' style=bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxValue - this.minValue) / this.intervals)) + this.minValue).toFixed(1).replace(".0","") + "</div>";
         bottompx += (this.height / this.intervals);
       }
       intervalsHTML += "</div>";
@@ -206,7 +201,7 @@ class EZgraph {
             let dIndex = i;
             colorPicker = dIndex;
             graphHTML += "<div class='guideLineX guide"+this.randId+"Line"+uniqueIndex+"' onMouseOver=lineOver(" + uniqueIndex + ","+this.randId+") onMouseOut=lineOut(" + uniqueIndex + ","+this.randId+") onClick=showLine(" + uniqueIndex + ","+this.randId+") style='display:none;top:" + (this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)+1)  + "px;'></div>";
-            graphHTML += "<div class='d"+this.randId+"data"+ dIndex + " lineDot data" + this.randId + "'"; if (this.hideValueGuides == false) { graphHTML += "onMouseOver=lineOver(" + uniqueIndex + ","+this.randId+") onMouseOut=lineOut(" + uniqueIndex + ","+this.randId+") onClick=showLine(" + uniqueIndex + ","+this.randId+")";} graphHTML += " style='"; if (this.animate == "all" || this.animate == "onebyone" ){ graphHTML += "display:none;visibility:hidden;"; }  graphHTML += ";margin-top:" + ((this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) - 6) + "px;background:" + this.barColorSet[colorPicker] + ";left:" + ((((this.width / this.categories.length) * .8) / 1.5) + 5) + "px;margin-left:-14px;'>";
+            graphHTML += "<div class='d"+this.randId+"data"+ dIndex + " lineDot data" + this.randId + "'"; if (this.hideValueGuides == false) { graphHTML += "onMouseOver=lineOver(" + uniqueIndex + ","+this.randId+") onMouseOut=lineOut(" + uniqueIndex + ","+this.randId+") onClick=showLine(" + uniqueIndex + ","+this.randId+")";} graphHTML += " style='"; if (this.animate == "all" || this.animate == "oneByOne" ){ graphHTML += "display:none;visibility:hidden;"; }  graphHTML += ";margin-top:" + ((this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) - 6) + "px;background:" + this.barColorSet[colorPicker] + ";left:" + ((((this.width / this.categories.length) * .8) / 1.5) + 5) + "px;margin-left:-14px;'>";
 
               if(valueIndex < this.values.length - 1){
                 let angleHeight = (this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) - (this.height - (((this.values[valueIndex + 1][colorPicker] - this.minValue) / (this.maxValue - this.minValue)) * this.height));
@@ -240,14 +235,14 @@ class EZgraph {
       if (this.animate == "all") {
         setTimeout( () => {
           for (let i = 0; i < this.barColorSet.length; i++) {
-            animateOneByOneStartL(0, i, "all",this.randId);
+            animateoneByOneStartL(0, i, "all",this.randId);
           }
         },0);
       }
 
-      if (this.animate == "onebyone") {
+      if (this.animate == "oneByOne") {
         setTimeout(() => {
-          animateOneByOneL(0, this.randId);
+          animateoneByOneL(0, this.randId);
         },0);
       }
 
@@ -256,12 +251,7 @@ class EZgraph {
 
 
     generateHorizontalBarGraph() {
-      var topOfGraphHTML = "";
-      var intervalsHTML = "";
-      var zoomHTML = "";
-      var intervalGuidesHTML = "";
-      var graphHTML = "";
-      var bottomOfGraphHTML = "";
+      var topOfGraphHTML = "", intervalsHTML = "", zoomHTML = "", intervalGuidesHTML = "", graphHTML = "", bottomOfGraphHTML = "";
       topOfGraphHTML += "<div class='mainGraphContainer' style=width:" + ((80 + this.width) + 4) + "px;>";
 
       //TITLE
@@ -286,7 +276,7 @@ class EZgraph {
 
       var bottompx = 0;
       this.categories.forEach( (label) => {
-        intervalsHTML += "<div class='horizontalYLabel' style=bottom:" + bottompx + "px;padding-bottom:"+(((this.height / this.categories.length) / 2) - 8)+"px;>" + label + "</div>";
+        intervalsHTML += "<div class='horizontalYLabel' style=top:" + bottompx + "px;padding-top:"+(((this.height / this.categories.length) / 2) - 8)+"px;>" + label + "</div>";
         bottompx += (this.height / this.categories.length);
       });
       intervalsHTML +="</div>";
@@ -318,10 +308,10 @@ class EZgraph {
         graphHTML += "<div style='float:left;width:100%;height:" + this.height / this.categories.length + "px;'>";
         if (!value[1]) {
           let v = value[0];
-          graphHTML += "<div class='guide"+this.rand+"Line"+barIndex+" guideLineY' style='display:none;height:" + this.height + "px;right:" + (this.width - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) + 1)  + "px;'></div>";
-          graphHTML += "<div class='bar"+this.randId+" d"+this.randId+"data0 data" + this.randId + "' "; if (this.hideValueGuides == false) { graphHTML += "onMouseOver=lineOver("+barIndex+","+this.rand+") onMouseOut=lineOut("+barIndex+","+this.rand+") onClick=showLine("+barIndex+","+this.rand+")";} graphHTML += " style='visibility:visible;"; if(this.animate =="all" || this.animate == "onebyone") { graphHTML += "display:none;";  } graphHTML += ";cursor:pointer;width:" + ((((value - this.minValue) / (this.maxValue - this.minValue)) * this.width) - 1) + "px;max-width:" + ((((value - this.minValue) / (this.maxValue - this.minValue)) * this.width) - 1) + "px;height:" + ((this.height / this.categories.length) * .8) + "px;background:" + this.barColorSet[0] + ";position:relative;top:50%;margin-top:-" + (((this.height / this.categories.length) * .8) / 2) + "px'>";
+          graphHTML += "<div class='guide"+this.randId+"Line"+barIndex+" guideLineY' style='display:none;height:" + this.height + "px;right:" + (this.width - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) + 1)  + "px;'></div>";
+          graphHTML += "<div class='bar"+this.randId+" d"+this.randId+"data0 data" + this.randId + "' "; if (this.hideValueGuides == false) { graphHTML += "onMouseOver=lineOver("+barIndex+","+this.randId+") onMouseOut=lineOut("+barIndex+","+this.randId+") onClick=showLine("+barIndex+","+this.randId+")";} graphHTML += " style='visibility:visible;"; if(this.animate =="all" || this.animate == "oneByOne") { graphHTML += "display:none;";  } graphHTML += ";cursor:pointer;width:" + ((((value - this.minValue) / (this.maxValue - this.minValue)) * this.width) - 1) + "px;max-width:" + ((((value - this.minValue) / (this.maxValue - this.minValue)) * this.width) - 1) + "px;height:" + ((this.height / this.categories.length) * .8) + "px;background:" + this.barColorSet[0] + ";position:relative;top:50%;margin-top:-" + (((this.height / this.categories.length) * .8) / 2) + "px'>";
           graphHTML += "<div class=horizontalBarValue style='"; if(this.hideValues){ graphHTML += "display:none;" } graphHTML += "'>" + actualValue +"</div>";
-          graphHTML += "<div class='guide"+this.rand+"Line"+barIndex+" guideTextY' style='left:"+ ((((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) + 3)+"px;'>" + v +"</div>";
+          graphHTML += "<div class='guide"+this.randId+"Line"+barIndex+" guideTextY' style='left:"+ ((((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) + 3)+"px;'>" + v +"</div>";
           graphHTML += "</div>";
           barIndex++;
         } else {
@@ -340,10 +330,10 @@ class EZgraph {
             if (v < this.minValue) {
               v = 0;
             }
-            graphHTML += "<div class='guide"+this.rand+"Line"+barIndex+" guideLineY' style='display:none;height:" + this.height + "px;right:" + (this.width - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) + 1)  + "px;'></div>";
-            graphHTML += "<div class='bar"+this.randId+" d"+this.randId+"data"+colorPicker+" data" + this.randId + "' "; if (this.hideValueGuides == false) { graphHTML += "onMouseOver=lineOver("+barIndex+","+this.rand+") onMouseOut=lineOut("+barIndex+","+this.rand+") onClick=showLine("+barIndex+","+this.rand+")";} graphHTML += " style='"; if(this.animate =="all" || this.animate == "onebyone") { graphHTML += "display:none;";  } graphHTML += ";cursor:pointer;width:" + ((((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) - 1) + "px;max-width:" + ((((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) - 1) + "px;height:" + ((this.height / this.categories.length) * (.8 / value.length)) + "px;background:" + this.barColorSet[colorPicker] + ";position:relative;margin-top:" + ((.2 * this.height / this.categories.length) / value.length) + "px;margin-bottom:-" + (((.2 * this.height / this.categories.length) / value.length)) + "px'>";
+            graphHTML += "<div class='guide"+this.randId+"Line"+barIndex+" guideLineY' style='display:none;height:" + this.height + "px;right:" + (this.width - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) + 1)  + "px;'></div>";
+            graphHTML += "<div class='bar"+this.randId+" d"+this.randId+"data"+colorPicker+" data" + this.randId + "' "; if (this.hideValueGuides == false) { graphHTML += "onMouseOver=lineOver("+barIndex+","+this.randId+") onMouseOut=lineOut("+barIndex+","+this.randId+") onClick=showLine("+barIndex+","+this.randId+")";} graphHTML += " style='"; if(this.animate =="all" || this.animate == "oneByOne") { graphHTML += "display:none;";  } graphHTML += ";cursor:pointer;width:" + ((((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) - 1) + "px;max-width:" + ((((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) - 1) + "px;height:" + ((this.height / this.categories.length) * (.8 / value.length)) + "px;background:" + this.barColorSet[colorPicker] + ";position:relative;margin-top:" + ((.2 * this.height / this.categories.length) / value.length) + "px;margin-bottom:-" + (((.2 * this.height / this.categories.length) / value.length)) + "px'>";
             graphHTML += "<div class=horizontalBarValue style='"; if(this.hideValues){ graphHTML += "display:none;" } graphHTML += "'>" + actualValue +"</div>";
-            graphHTML += "<div class='guide"+this.rand+"Line"+barIndex+" guideTextY' style='left:"+ ((((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) + 3)+"px;'>" + v +"</div>";
+            graphHTML += "<div class='guide"+this.randId+"Line"+barIndex+" guideTextY' style='left:"+ ((((v - this.minValue) / (this.maxValue - this.minValue)) * this.width) + 3)+"px;'>" + v +"</div>";
             graphHTML += "</div>";
             colorPicker++;
             barIndex++;
@@ -358,10 +348,10 @@ class EZgraph {
       var left = 80;
         for (let i = 0; i <= this.intervals; i ++) {
           if(i == 0) {
-            bottomOfGraphHTML += "<div class='xInterval' style=left:"+ (left - 5) +"px;width:" + (this.width / this.xIntervals) * 2 + "px;>" + parseFloat((i * ((this.maxValue - this.minValue) / this.intervals)) + this.minValue).toFixed(2).replace(".00","") + "</div>";
+            bottomOfGraphHTML += "<div class='xInterval' style=left:"+ (left - 5) +"px;width:" + (this.width / this.xIntervals) * 2 + "px;>" + parseFloat((i * ((this.maxValue - this.minValue) / this.intervals)) + this.minValue).toFixed(1).replace(".0","") + "</div>";
             continue;
           }
-          bottomOfGraphHTML += "<div class='xInterval' style=left:"+left+"px;width:" + (this.width / this.intervals) * 2 + "px;text-align:center;>" + parseFloat((i * ((this.maxValue - this.minValue) / this.intervals)) + this.minValue).toFixed(2).replace(".00","") + "</div>";
+          bottomOfGraphHTML += "<div class='xInterval' style=left:"+left+"px;width:" + (this.width / this.intervals) * 2 + "px;text-align:center;>" + parseFloat((i * ((this.maxValue - this.minValue) / this.intervals)) + this.minValue).toFixed(1).replace(".0","") + "</div>";
           left += (this.width / this.intervals);
         }
       if (this.xLabel != "") {
@@ -374,21 +364,16 @@ class EZgraph {
           animateAllH(this.randId);
         },0);
       }
-      if (this.animate == "onebyone") {
+      if (this.animate == "oneByOne") {
         setTimeout( () => {
-          animateOneByOneH(this.randId);
+          animateoneByOneH(this.randId);
         },0);
       }
       return `${topOfGraphHTML}${intervalsHTML}${zoomHTML}${intervalGuidesHTML}${graphHTML}${bottomOfGraphHTML}`;
     }
 
     generateBarGraph() {
-      var topOfGraphHTML = "";
-      var intervalsHTML = "";
-      var zoomHTML = "";
-      var intervalGuidesHTML = "";
-      var graphHTML = "";
-      var bottomOfGraphHTML = "";
+      var topOfGraphHTML = "", intervalsHTML = "", zoomHTML = "", intervalGuidesHTML = "", graphHTML = "", bottomOfGraphHTML = "";
       topOfGraphHTML += "<div class='mainGraphContainer' style=width:" + ((80 + this.width) + 4) + "px;>";
 
       //TITLE
@@ -410,9 +395,9 @@ class EZgraph {
       // INTERVALS
       intervalsHTML += "<div class='yIntervalsContainer' style='height:" + this.height + "px;'>";
       intervalsHTML += "<div class='yLabel' style='width:"+this.height+"px;'>" + this.yLabel + "</div>";
-      var bottompx = -11;
+      var bottompx = -9;
       for (let i = 0; i <= this.intervals; i ++) {
-        intervalsHTML += "<div class='yInterval' style=bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxValue - this.minValue) / this.intervals)) + this.minValue).toFixed(2).replace(".00","") + "</div>";
+        intervalsHTML += "<div class='yInterval' style=bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxValue - this.minValue) / this.intervals)) + this.minValue).toFixed(1).replace(".0","") + "</div>";
         bottompx += (this.height / this.intervals);
       }
       intervalsHTML += "</div>";
@@ -444,12 +429,12 @@ class EZgraph {
         graphHTML += "<div style='float:left;height:100%;width:" + this.width / this.categories.length + "px;''>";
         if (!value[1]) {
           let v = value[0];
-          graphHTML += "<div class='guide"+this.rand+"Line"+barIndex+" guideLineX' style='display:none;top:" + ((this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) + 1) + "px;'></div>";
-          graphHTML += "<div class='bar"+this.randId+" d"+this.randId+"data0 data" + this.randId + "' bar" + colorPicker + "'"; if (this.hideValueGuides == false) { graphHTML += " onMouseOver=lineOver("+barIndex+","+this.rand+") onMouseOut=lineOut("+barIndex+","+this.rand+") onClick=showLine("+barIndex+","+this.rand+")";} graphHTML += " style='visiblity:visible;"; if(this.animate =="all" || this.animate == "onebyone") { graphHTML += "display:none;";  } graphHTML += ";float:left;cursor:pointer;height:" + ((value - this.minValue) / (this.maxValue - this.minValue)) * this.height + "px;width:" + ((this.width / this.categories.length) * .8) + "px;margin-top:" + (this.height - (((value - this.minValue) / (this.maxValue - this.minValue)) * this.height)) + "px;background:" + this.barColorSet[0] + ";position:relative;left:50%;margin-left:-" + (((this.width / this.categories.length) * .8) / 2) + "px'>";
+          graphHTML += "<div class='guide"+this.randId+"Line"+barIndex+" guideLineX' style='display:none;top:" + ((this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) + 1) + "px;'></div>";
+          graphHTML += "<div class='bar"+this.randId+" d"+this.randId+"data0 data" + this.randId + "' bar" + colorPicker + "'"; if (this.hideValueGuides == false) { graphHTML += " onMouseOver=lineOver("+barIndex+","+this.randId+") onMouseOut=lineOut("+barIndex+","+this.randId+") onClick=showLine("+barIndex+","+this.randId+")";} graphHTML += " style='visiblity:visible;"; if(this.animate =="all" || this.animate == "oneByOne") { graphHTML += "display:none;";  } graphHTML += ";float:left;cursor:pointer;height:" + ((value - this.minValue) / (this.maxValue - this.minValue)) * this.height + "px;width:" + ((this.width / this.categories.length) * .8) + "px;margin-top:" + (this.height - (((value - this.minValue) / (this.maxValue - this.minValue)) * this.height)) + "px;background:" + this.barColorSet[0] + ";position:relative;left:50%;margin-left:-" + (((this.width / this.categories.length) * .8) / 2) + "px'>";
           if (this.hideValues == false) {
             graphHTML += "<div class='verticalBarValue'>" + actualValue +"</div>";
           }
-          graphHTML += "<div class='guide"+this.rand+"Line"+barIndex+" guideTextX'>" + v +"</div>";
+          graphHTML += "<div class='guide"+this.randId+"Line"+barIndex+" guideTextX'>" + v +"</div>";
           graphHTML += "</div>";
           barIndex++;
         } else {
@@ -468,12 +453,12 @@ class EZgraph {
             if (v < this.minValue) {
               v = 0;
             }
-            graphHTML += "<div class='guide"+this.rand+"Line"+barIndex+" guideLineX' style='display:none;top:" + ((this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) + 1) + "px;'></div>";
-            graphHTML += "<div class='bar"+this.randId+" d"+this.randId+"data"+colorPicker+" data" + this.randId + "' bar" + colorPicker + "'"; if (this.hideValueGuides == false) { graphHTML += " onMouseOver=lineOver("+barIndex+","+this.rand+") onMouseOut=lineOut("+barIndex+","+this.rand+") onClick=showLine("+barIndex+","+this.rand+")";} graphHTML += " style='"; if(this.animate =="all" || this.animate == "onebyone") { graphHTML += "display:none;";  } graphHTML += ";float:left;cursor:pointer;height:" + ((v - this.minValue) / (this.maxValue - this.minValue)) * this.height + "px;width:" + ((this.width / this.categories.length) * (.8 / value.length)) + "px;margin-top:" + (this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) + "px;background:" + this.barColorSet[colorPicker] + ";position:relative;margin-left:" + ((.2 * this.width / this.categories.length) / value.length) + "px;margin-right:-" + (((.2 * this.width / this.categories.length) / value.length)) + "px'>";
+            graphHTML += "<div class='guide"+this.randId+"Line"+barIndex+" guideLineX' style='display:none;top:" + ((this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) + 1) + "px;'></div>";
+            graphHTML += "<div class='bar"+this.randId+" d"+this.randId+"data"+colorPicker+" data" + this.randId + "' bar" + colorPicker + "'"; if (this.hideValueGuides == false) { graphHTML += " onMouseOver=lineOver("+barIndex+","+this.randId+") onMouseOut=lineOut("+barIndex+","+this.randId+") onClick=showLine("+barIndex+","+this.randId+")";} graphHTML += " style='"; if(this.animate =="all" || this.animate == "oneByOne") { graphHTML += "display:none;";  } graphHTML += ";float:left;cursor:pointer;height:" + ((v - this.minValue) / (this.maxValue - this.minValue)) * this.height + "px;width:" + ((this.width / this.categories.length) * (.8 / value.length)) + "px;margin-top:" + (this.height - (((v - this.minValue) / (this.maxValue - this.minValue)) * this.height)) + "px;background:" + this.barColorSet[colorPicker] + ";position:relative;margin-left:" + ((.2 * this.width / this.categories.length) / value.length) + "px;margin-right:-" + (((.2 * this.width / this.categories.length) / value.length)) + "px'>";
             if (this.hideValues == false) {
               graphHTML += "<div class='verticalBarValue'>" + actualValue +"</div>";
             }
-            graphHTML += "<div class='guide"+this.rand+"Line"+barIndex+" guideTextX'>" + v +"</div>";
+            graphHTML += "<div class='guide"+this.randId+"Line"+barIndex+" guideTextX'>" + v +"</div>";
             graphHTML += "</div>";
             colorPicker++;
             barIndex++;
@@ -500,9 +485,9 @@ class EZgraph {
           animateAll(this.randId);
         },0);
       }
-      if (this.animate == "onebyone") {
+      if (this.animate == "oneByOne") {
         setTimeout( () => {
-          animateOneByOne(this.randId);
+          animateoneByOne(this.randId);
         },0);
       }
 
@@ -625,12 +610,7 @@ class EZgraph {
 
 
     generateBubbleChart() {
-      var topOfGraphHTML = "";
-      var intervalsHTML = "";
-      var zoomHTML = "";
-      var intervalGuidesHTML = "";
-      var graphHTML = "";
-      var bottomOfGraphHTML = "";
+      var topOfGraphHTML = "", intervalsHTML = "", zoomHTML = "", intervalGuidesHTML = "", graphHTML = "", bottomOfGraphHTML = "";
       topOfGraphHTML += "<div class='mainGraphContainer' style=width:" + ((80 + this.width) + 4) + "px;>";
 
       //TITLE
@@ -654,9 +634,9 @@ class EZgraph {
 
       intervalsHTML += "<div class='yLabel' style='width:"+this.height+"px;'>" + this.yLabel + "</div>";
 
-      var bottompx = -11;
+      var bottompx = -9;
       for (let i = 0; i <= this.yIntervals; i ++) {
-        intervalsHTML += "<div class='yInterval' style=bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxYValue - this.minYValue) / this.yIntervals)) + this.minYValue).toFixed(2).replace(".00","") + "</div>";
+        intervalsHTML += "<div class='yInterval' style="+(this.zoomed ? "font-size:8pt;" : "")+"bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxYValue - this.minYValue) / this.yIntervals)) + this.minYValue).toFixed(1).replace(".0","") + "</div>";
         bottompx += (this.height / this.yIntervals);
       }
       intervalsHTML += "</div>";
@@ -737,10 +717,10 @@ class EZgraph {
       var left = 80;
         for (let i = 0; i <= this.xIntervals; i ++) {
           if(i == 0) {
-            bottomOfGraphHTML += "<div class='xInterval' style=left:"+ (left - 5) +"px;width:" + (this.width / this.xIntervals) * 2 + "px;>" + parseFloat((i * ((this.maxXValue - this.minXValue) / this.xIntervals)) + this.minXValue).toFixed(2).replace(".00","") + "</div>";
+            bottomOfGraphHTML += "<div class='xInterval' style="+(this.zoomed ? "font-size:8pt;" : "")+"left:"+ (left - 5) +"px;width:" + (this.width / this.xIntervals) * 2 + "px;>" + parseFloat((i * ((this.maxXValue - this.minXValue) / this.xIntervals)) + this.minXValue).toFixed(1).replace(".0","") + "</div>";
             continue;
           }
-          bottomOfGraphHTML += "<div class='xInterval' style=left:"+left+"px;width:" + (this.width / this.xIntervals) * 2 + "px;text-align:center;>" + parseFloat((i * ((this.maxXValue - this.minXValue) / this.xIntervals)) + this.minXValue).toFixed(2).replace(".00","") + "</div>";
+          bottomOfGraphHTML += "<div class='xInterval' style="+(this.zoomed ? "font-size:8pt;" : "")+"left:"+left+"px;width:" + (this.width / this.xIntervals) * 2 + "px;text-align:center;>" + parseFloat((i * ((this.maxXValue - this.minXValue) / this.xIntervals)) + this.minXValue).toFixed(1).replace(".0","") + "</div>";
           left += (this.width / this.xIntervals);
         }
       if (this.xLabel != "") {
@@ -753,26 +733,21 @@ class EZgraph {
         setTimeout( () => {
           let size = document.querySelectorAll(".data"+this.randId).length;
           for (let i = 0; i <= size; i++) {
-            animateOneByOneStartB(i, "all", this.randId);
+            animateoneByOneStartB(i, "all", this.randId);
           }
         },0);
       }
 
-      if (this.animate == "onebyone") {
+      if (this.animate == "oneByOne") {
         setTimeout(() => {
-          animateOneByOneStartB(0, "onebyone", this.randId);
+          animateoneByOneStartB(0, "oneByOne", this.randId);
         },0);
       }
       return `${topOfGraphHTML}${intervalsHTML}${zoomHTML}${intervalGuidesHTML}${graphHTML}${bottomOfGraphHTML}`;
     }
 
     generateTimeLine() {
-      var topOfGraphHTML = "";
-      var intervalsHTML = "";
-      var zoomHTML = "";
-      var intervalGuidesHTML = "";
-      var graphHTML = "";
-      var bottomOfGraphHTML = "";
+      var topOfGraphHTML = "", intervalsHTML = "", zoomHTML = "", intervalGuidesHTML = "", graphHTML = "", bottomOfGraphHTML = "";
       topOfGraphHTML += "<div class='mainGraphContainer' style=width:" + ((80 + this.width) + 4) + "px;>";
 
       //TITLE
@@ -796,9 +771,9 @@ class EZgraph {
 
       intervalsHTML += "<div class='yLabel' style='width:"+this.height+"px;'>" + this.yLabel + "</div>";
 
-      var bottompx = -11;
+      var bottompx = -9;
       for (let i = 0; i <= this.yIntervals; i ++) {
-        intervalsHTML += "<div class='yInterval' style=bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxYValue - this.minYValue) / this.yIntervals)) + this.minYValue).toFixed(2).replace(".00","") + "</div>";
+        intervalsHTML += "<div class='yInterval' style="+(this.zoomed ? "font-size:8pt;" : "")+"bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxYValue - this.minYValue) / this.yIntervals)) + this.minYValue).toFixed(1).replace(".0","") + "</div>";
         bottompx += (this.height / this.yIntervals);
       }
       intervalsHTML += "</div>";
@@ -981,26 +956,21 @@ class EZgraph {
             size++;
           }
           for (let i = 0; i <= size; i++) {
-            animateOneByOneStartL(0, i, "all", this.randId);
+            animateoneByOneStartL(0, i, "all", this.randId);
           }
         },0);
       }
 
-      if (this.animate == "onebyone") {
+      if (this.animate == "oneByOne") {
         setTimeout(() => {
-          animateOneByOneStartL(0, 0, "onebyone", this.randId);
+          animateoneByOneStartL(0, 0, "oneByOne", this.randId);
         },0);
       }
       return `${topOfGraphHTML}${intervalsHTML}${zoomHTML}${intervalGuidesHTML}${graphHTML}${bottomOfGraphHTML}`;
     }
 
     generateScatterPlot() {
-      var topOfGraphHTML = "";
-      var intervalsHTML = "";
-      var zoomHTML = "";
-      var intervalGuidesHTML = "";
-      var graphHTML = "";
-      var bottomOfGraphHTML = "";
+      var topOfGraphHTML = "", intervalsHTML = "", zoomHTML = "", intervalGuidesHTML = "", graphHTML = "", bottomOfGraphHTML = "";
       topOfGraphHTML += "<div class='mainGraphContainer' style=width:" + ((80 + this.width) + 4) + "px;>";
 
       //TITLE
@@ -1022,9 +992,9 @@ class EZgraph {
       // INTERVALS
       intervalsHTML += "<div class='yIntervalsContainer' style='height:" + this.height + "px;'>";
       intervalsHTML += "<div class='yLabel' style='width:"+this.height+"px;'>" + this.yLabel + "</div>";
-      var bottompx = -11;
+      var bottompx = -9;
       for (let i = 0; i <= this.yIntervals; i ++) {
-        intervalsHTML += "<div class='yInterval' style=bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxYValue - this.minYValue) / this.yIntervals)) + this.minYValue).toFixed(2).replace(".00","") + "</div>";
+        intervalsHTML += "<div class='yInterval' style="+(this.zoomed ? "font-size:8pt;" : "")+"bottom:" +  (i == 0 ? -6 : bottompx) + "px;>" + parseFloat((i * ((this.maxYValue - this.minYValue) / this.yIntervals)) + this.minYValue).toFixed(1).replace(".0","") + "</div>";
         bottompx += (this.height / this.yIntervals);
       }
       intervalsHTML += "</div>";
@@ -1109,10 +1079,10 @@ class EZgraph {
       var left = 80;
         for (let i = 0; i <= this.xIntervals; i ++) {
           if(i == 0) {
-            bottomOfGraphHTML += "<div class='xInterval' style=left:"+ (left - 5) +"px;width:" + (this.width / this.xIntervals) * 2 + "px;>" + parseFloat((i * ((this.maxXValue - this.minXValue) / this.xIntervals)) + this.minXValue).toFixed(2).replace(".00","") + "</div>";
+            bottomOfGraphHTML += "<div class='xInterval' style="+(this.zoomed ? "font-size:8pt;" : "")+"left:"+ (left - 5) +"px;width:" + (this.width / this.xIntervals) * 2 + "px;>" + parseFloat((i * ((this.maxXValue - this.minXValue) / this.xIntervals)) + this.minXValue).toFixed(1).replace(".0","") + "</div>";
             continue;
           }
-          bottomOfGraphHTML += "<div class='xInterval' style=left:"+left+"px;width:" + (this.width / this.xIntervals) * 2 + "px;text-align:center;>" + parseFloat((i * ((this.maxXValue - this.minXValue) / this.xIntervals)) + this.minXValue).toFixed(2).replace(".00","") + "</div>";
+          bottomOfGraphHTML += "<div class='xInterval' style="+(this.zoomed ? "font-size:8pt;" : "")+"left:"+left+"px;width:" + (this.width / this.xIntervals) * 2 + "px;text-align:center;>" + parseFloat((i * ((this.maxXValue - this.minXValue) / this.xIntervals)) + this.minXValue).toFixed(1).replace(".0","") + "</div>";
           left += (this.width / this.xIntervals);
         }
       if (this.xLabel != "") {
@@ -1128,14 +1098,14 @@ class EZgraph {
             size++;
           }
           for (let i = 0; i <= size; i++) {
-            animateOneByOneStartL(0, i, "all", this.randId);
+            animateoneByOneStartL(0, i, "all", this.randId);
           }
         },0);
       }
 
-      if (this.animate == "onebyone") {
+      if (this.animate == "oneByOne") {
         setTimeout(() => {
-          animateOneByOneStartL(0, 0, "onebyone", this.randId);
+          animateoneByOneStartL(0, 0, "oneByOne", this.randId);
         },0);
       }
         return `${topOfGraphHTML}${intervalsHTML}${zoomHTML}${intervalGuidesHTML}${graphHTML}${bottomOfGraphHTML}`;
@@ -1174,7 +1144,7 @@ class EZgraph {
       let slopeInRadians = Math.atan(angleHeight / angleWidth);
       let slopeInDegrees =  90 - ((slopeInRadians * 180) / Math.PI);
       let lineLength = Math.sqrt((angleHeight * angleHeight) + (angleWidth * angleWidth));
-      trendLine += "<div class='trendLine l"+this.randId+"line" + this.maxIndex + " d"+this.randId+"data"+this.maxIndex+"' style='height:" + (this.animate == "all" || this.animate == "onebyone" ? 0 : lineLength) + "px;max-height:" + lineLength + "px;bottom:"+ ((this.height - minMarginTop) - 4) + "px;right:" + (minLeft+4) + "px;transform:rotate("+slopeInDegrees+"deg);'></div>";
+      trendLine += "<div class='trendLine l"+this.randId+"line" + this.maxIndex + " d"+this.randId+"data"+this.maxIndex+"' style='height:" + (this.animate == "all" || this.animate == "oneByOne" ? 0 : lineLength) + "px;max-height:" + lineLength + "px;bottom:"+ ((this.height - minMarginTop) - 4) + "px;right:" + (minLeft+4) + "px;transform:rotate("+slopeInDegrees+"deg);'></div>";
       return trendLine;
     }
 
@@ -1207,10 +1177,10 @@ class EZgraph {
       if(this.type == "scatter") {
         this.container.innerHTML = this.generateScatterPlot();
       }
-      document.getElementById("graphDataDiv"+this.randId).addEventListener("mousedown", (e) => { startZoom(e, this.randId) }, false);
-      document.getElementById("graphDataDiv"+this.randId).addEventListener("mousemove", (e) => { setZoom(e, this.randId) }, false);
-      document.getElementById("graphDataDiv"+this.randId).addEventListener("mouseup", () => { zoom(this, this.randId) }, false);
-      document.getElementById(this.randId+"zoomOut").addEventListener("mousedown", () => { zoomOut(this) }, false);
+      document.getElementById("graphDataDiv"+this.randId).addEventListener("mousedown", (e) => { startZoom(e, this.randId) }, true);
+      document.getElementById("graphDataDiv"+this.randId).addEventListener("mousemove", (e) => { setZoom(e, this.randId) }, true);
+      document.getElementById("graphDataDiv"+this.randId).addEventListener("mouseup", () => { zoom(this, this.randId) }, true);
+      document.getElementById(this.randId+"zoomOut").addEventListener("mousedown", () => { zoomOut(this) }, true);
       if (this.isAnimated) {
         this.animate = true;
       }
@@ -1221,7 +1191,6 @@ class EZgraph {
          this.isAnimated = true;
          this.animate = false;
       }
-
       this.minXValue = this.origMinXValue;
       this.maxXValue = this.origMaxXValue ;
       this.minYValue = this.origMinYValue;
@@ -1236,9 +1205,7 @@ class EZgraph {
       if(this.type == "scatter") {
         this.container.innerHTML = this.generateScatterPlot();
       }
-      document.getElementById("graphDataDiv"+this.randId).addEventListener("mousedown", (e) => { startZoom(e, this.randId) }, false);
-      document.getElementById("graphDataDiv"+this.randId).addEventListener("mousemove", (e) => { setZoom(e, this.randId) }, false);
-      document.getElementById("graphDataDiv"+this.randId).addEventListener("mouseup", () => { zoom(this, this.randId) }, false);
+      this.initializeZoom();
       if (this.isAnimated) {
         this.animate = true;
       }
@@ -1296,20 +1263,6 @@ class EZgraph {
       }
     this.animate = this.isAnimated;
     this.isAnimated = false;
-    }
-
-    changeGraphSize() {
-      this.width = 800;
-      this.height = 800;
-      this.barType();
-    }
-
-    setGraphType(type) {
-      if(this.type == "bar") {
-        this.type = "line";
-      }
-      else this.type = "bar";
-      this.barType();
     }
 
 }
@@ -1456,7 +1409,7 @@ function zoomOut(obj){
   obj.zoomOut();
 }
 
-var animateOneByOneStartB = (i,  type, randId) => {
+var animateoneByOneStartB = (i,  type, randId) => {
   var bubble = document.querySelectorAll('.data'+randId)[i];
   if (bubble) {
     let currentTop = bubble.style.marginTop.replace("px","");
@@ -1464,14 +1417,14 @@ var animateOneByOneStartB = (i,  type, randId) => {
     let height = parseInt(bubble.style.maxHeight.replace("px",""));
     animateBubble(bubble, 0, height, currentTop, currentRight, i, type, null, randId);
   } else if (document.querySelector('.data'+randId)[i + 1] && type != "all") {
-      animateOneByOneStartB(i + 1, type, randId);
+      animateoneByOneStartB(i + 1, type, randId);
   }
 }
 
 var animateBubble = (bubble, currentHeight, targetHeight, currentTop, currentRight, i, type, targetValue, randId) => {
   if (currentHeight >= targetHeight) {
     if (type != 'all') {
-      animateOneByOneStartB(i + 1,  type, randId);
+      animateoneByOneStartB(i + 1,  type, randId);
     }
     return;
   }
@@ -1492,23 +1445,23 @@ var animateBubble = (bubble, currentHeight, targetHeight, currentTop, currentRig
   },1);
 }
 
-var animateOneByOne = (randId) => {
+var animateoneByOne = (randId) => {
   var bars = document.querySelectorAll('.bar' + randId);
   for (let i = 0; i < bars.length; i++){
     var height = parseInt(bars[i].style.height.replace("px",""));
     var margin = parseInt(bars[i].style.marginTop.replace("px",""));
     bars[i].style.marginTop = parseInt(height + margin) + "px";
   }
-  animateOneByOneStart(0, randId);
+  animateoneByOneStart(0, randId);
 }
 
-var animateOneByOneStart = (i, randId) => {
+var animateoneByOneStart = (i, randId) => {
   let bar = document.querySelectorAll('.bar' + randId)[i];
   if (bar) {
     let height = parseInt(bar.style.height.replace("px",""));
     bar.style.display = "block";
     if(height == 0) {
-      animateOneByOneStart(i+1, randId);
+      animateoneByOneStart(i+1, randId);
       return;
     }
     animateBar(bar, height, i, null, null, randId);
@@ -1536,7 +1489,7 @@ var animateBar = (el, height, i, targetValue, targetHeight, randId) => {
   if (height == 1) {
       el.style.marginTop == "1px";
       if (i != undefined) {
-        animateOneByOneStart(i+1, randId);
+        animateoneByOneStart(i+1, randId);
       }
     return;
   }
@@ -1552,16 +1505,16 @@ var animateBar = (el, height, i, targetValue, targetHeight, randId) => {
   },2);
 }
 
-var animateOneByOneH = (randId) => {
+var animateoneByOneH = (randId) => {
   var bars = document.querySelectorAll('.bar'+randId);
   for (let i = 0; i < bars.length; i++){
     var width = parseInt(bars[i].style.width.replace("px",""));
     bars[i].style.width = "0px";
   }
-  animateOneByOneStartH(0, randId);
+  animateoneByOneStartH(0, randId);
 }
 
-var animateOneByOneStartH = (i, randId) => {
+var animateoneByOneStartH = (i, randId) => {
   var bar = document.querySelectorAll('.bar' + randId)[i];
   if (bar) {
     var width = parseInt(bar.style.maxWidth.replace("px",""));
@@ -1584,7 +1537,7 @@ var animateAllH = (randId) => {
 var animateBarH = (el, currentWidth, targetWidth, i, targetValue, randId) => {
   if (currentWidth >= targetWidth + 1) {
       if (i != undefined) {
-        animateOneByOneStartH(i+1, randId);
+        animateoneByOneStartH(i+1, randId);
       }
     return;
   }
@@ -1598,10 +1551,10 @@ var animateBarH = (el, currentWidth, targetWidth, i, targetValue, randId) => {
   },2);
 }
 
-var animateOneByOneL = (lineIndex, randId) => {
-  animateOneByOneStartL(0, lineIndex, "onebyone", randId);
+var animateoneByOneL = (lineIndex, randId) => {
+  animateoneByOneStartL(0, lineIndex, "oneByOne", randId);
 }
-var animateOneByOneStartL = (i, lineIndex, type, randId) => {
+var animateoneByOneStartL = (i, lineIndex, type, randId) => {
   let line = document.querySelectorAll('.l'+randId+'line' + lineIndex)[i];
   let height = line ? parseInt(line.style.maxHeight.replace("px","")) : false;
   if (line && height) {
@@ -1610,7 +1563,7 @@ var animateOneByOneStartL = (i, lineIndex, type, randId) => {
     document.querySelectorAll(".d"+randId+"data" + lineIndex)[i].style.display = "block";
     document.querySelectorAll(".d"+randId+"data" + lineIndex)[i].style.visibility = "visible";
     if(type != "all") {
-      animateOneByOneStartL(0, lineIndex + 1, "onebyone", randId);
+      animateoneByOneStartL(0, lineIndex + 1, "oneByOne", randId);
     }
   }
 }
@@ -1618,7 +1571,7 @@ var animateOneByOneStartL = (i, lineIndex, type, randId) => {
 var animateLine = (line, currentHeight, targetHeight, i, lineIndex, type, randId) => {
   if (currentHeight >= targetHeight) {
     if (i != undefined) {
-      animateOneByOneStartL(i + 1, lineIndex, type, randId);
+      animateoneByOneStartL(i + 1, lineIndex, type, randId);
     }
     return;
   }
