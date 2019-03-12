@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../EZgraph.css">
+<script type="text/javascript" src="../EZgraph.js"></script>
+<title>Bubble Chart</title>
+</head>
+<body>
+
+<div id="container"></div>
+</div>
+
+<script>
+  let bubbleProperties = {
+    container: document.getElementById("container"),
+    type: "bubble",
+    title: "Bubble Chart - (Click and Drag to Zoom)",
+    minYValue:  0,
+    maxYValue: 200,
+    minXValue:  0,
+    maxXValue: 200,
+    height: 350,
+    width: 420,
+    xIntervals: 10,
+    yIntervals: 5,
+    xLabel: "xLabel",
+    yLabel: "yLabel",
+    animate: "all", // Can also use "oneByOne"
+    graphKeyTitle: "Data Sets",
+    hideIntervalGuides:false,
+    hideValueGuides: false,
+    disableZoom: false,
+    data: {
+      "Data Set 1": {
+        color: "#dc3545",
+        bubbles: [
+          new Bubble({x:40, y:30, size:20}),
+          new Bubble({x:50, y:70, size:50}),
+          new Bubble({x:80, y:120, size:40}),
+          new Bubble({x:140, y:160, size:40}),
+          new Bubble({x:100, y:20, size:20})
+        ]
+      },
+      "Data Set 2": {
+        color: "#007bff",
+        bubbles: [
+          new Bubble({x:40, y:150, size:25}),
+          new Bubble({x:80, y:79, size:15}),
+          new Bubble({x:120, y:80, size:30}),
+          new Bubble({x:180, y:50, size:40}),
+          new Bubble({x:69, y:20, size:10})
+        ]
+      },
+      "Data Set 3": {
+        color: "Orange",
+        bubbles: [
+          new Bubble({x:10, y:40, size:25}),
+          new Bubble({x:80, y:50, size:15}),
+          new Bubble({x:100, y:100, size:30}),
+          new Bubble({x:140, y:40, size:40}),
+          new Bubble({x:180, y:90, size:25})
+        ]
+      }
+    }
+  }
+  let bubbleChart = new EZgraph(bubbleProperties);
+</script>
+
+</body>
+</html>

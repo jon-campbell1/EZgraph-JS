@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../EZgraph.css">
+<script type="text/javascript" src="../EZgraph.js"></script>
+<title>Pie Chart</title>
+</head>
+<body>
+
+<div id="container" style=position:relative;top:100px;;left:200px;></div>
+</div>
+
+<script>
+  let pieProperties = {
+    container: document.getElementById("container"),
+    type: "pie",
+    size: 300,
+    title: "Pie Chart",
+    graphKeyTitle: "Data Sets",
+    animate: true,
+    hideValues: false,
+    data: {
+      "Person1": {
+        color: "#dc3545",
+        value: 30
+      },
+      "Person2": {
+        color: "#007BFF",
+        value: 40
+      },
+      "Person3": {
+        color: "#FFB802",
+        value: 20
+      },
+      "Person4": {
+        color: "#00B32C",
+        value: 20
+      }
+    }
+  }
+  let pieChart = new EZgraph(pieProperties);
+</script>
+
+</body>
+</html>

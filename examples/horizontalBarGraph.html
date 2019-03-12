@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../EZgraph.css">
+<script type="text/javascript" src="../EZgraph.js"></script>
+<title>Horizontal Bar Graph</title>
+</head>
+<body>
+
+<div id="container"></div>
+</div>
+
+<script>
+  let barGraphProperties = {
+    container: document.getElementById("container"),
+    type: "bar",
+    title: "Horizontal Bar Graph",
+    orientation: "horizontal",
+    minValue: 0,
+    maxValue: 100,
+    height: 350,
+    width: 420,
+    categories: ['Jan','Feb','Mar','Apr','May'],
+    intervals: 10,
+    xLabel: "xLabel",
+    yLabel: "yLabel",
+    graphKeyTitle: "Data Sets",
+    animate: "all", //Can also use "oneByOne"
+    hideValues: false,
+    hideIntervalGuides:false,
+    hideValueGuides: false,
+    data: {
+      "Data Set 2": {
+        color: "#dc3545",
+        values: [
+          10,70,80,90,30
+        ]
+      },
+      "Data Set 1": {
+        color: "#007bff",
+        values: [
+          19,24,43,77,38
+        ]
+      }
+    }
+  }
+  let barGraph = new EZgraph(barGraphProperties);
+</script>
+
+</body>
+</html>

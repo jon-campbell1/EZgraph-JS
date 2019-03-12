@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../EZgraph.css">
+<script type="text/javascript" src="../EZgraph.js"></script>
+<title>Timeline</title>
+</head>
+<body>
+
+<div id="container"></div>
+</div>
+
+<script>
+  let timelineProperties = {
+    container: document.getElementById("container"),
+    type: "timeline",
+    title: "Timeline - (Click and Drag to Zoom)",
+    minYValue: 0,
+    maxYValue: 200,
+    minXValue: new Date("February 14, 2019 00:00:00"),
+    maxXValue: new Date("February 14, 2019 23:00:00"),
+    height: 350,
+    width: 420,
+    xIntervals: 23,
+    yIntervals: 10,
+    xLabel: "xLabel",
+    yLabel: "yLabel",
+    hideValues: false,
+    hideIntervalGuides:false,
+    hideValueGuides: false,
+    disableZoom: false,
+    graphKeyTitle: "Data Sets",
+    connected: true,
+    animate:"all", //Can also use "oneByOne"
+    data: {
+      "Data Set 1": {
+        color: "#dc3545",
+        points: [
+          new Point({x: new Date("February 14, 2019 00:00:00") , y:20}),
+          new Point({x: new Date("February 14, 2019 01:00:00"), y:10}),
+          new Point({x: new Date("February 14, 2019 02:00:00"), y:100}),
+          new Point({x: new Date("February 14, 2019 03:00:00"), y:180}),
+          new Point({x: new Date("February 14, 2019 04:00:00"), y:110}),
+          new Point({x: new Date("February 14, 2019 05:00:00"), y:120}),
+          new Point({x: new Date("February 14, 2019 06:00:00"), y:160}),
+          new Point({x: new Date("February 14, 2019 07:00:00"), y:90}),
+          new Point({x: new Date("February 14, 2019 08:00:00"), y:56}),
+          new Point({x: new Date("February 14, 2019 09:00:00"), y:107}),
+          new Point({x: new Date("February 14, 2019 10:00:00"), y:127}),
+          new Point({x: new Date("February 14, 2019 11:00:00"), y:169}),
+          new Point({x: new Date("February 14, 2019 12:00:00"), y:102}),
+          new Point({x: new Date("February 14, 2019 13:00:00"), y:82}),
+          new Point({x: new Date("February 14, 2019 14:00:00"), y:25}),
+          new Point({x: new Date("February 14, 2019 15:00:00"), y:143}),
+          new Point({x: new Date("February 14, 2019 16:00:00"), y:24}),
+          new Point({x: new Date("February 14, 2019 17:00:00"), y:68}),
+          new Point({x: new Date("February 14, 2019 18:00:00"), y:154}),
+          new Point({x: new Date("February 14, 2019 19:00:00"), y:105}),
+          new Point({x: new Date("February 14, 2019 20:00:00"), y:88}),
+          new Point({x: new Date("February 14, 2019 21:00:00"), y:187}),
+          new Point({x: new Date("February 14, 2019 22:00:00"), y:158}),
+          new Point({x: new Date("February 14, 2019 23:00:00"), y:198})
+        ]
+      },
+      "Data Set 2": {
+        color: "#007bff",
+        points: [
+          new Point({x: new Date("February 14, 2019 00:00:00") , y:70}),
+          new Point({x: new Date("February 14, 2019 01:00:00"), y:160}),
+          new Point({x: new Date("February 14, 2019 02:00:00"), y:20}),
+          new Point({x: new Date("February 14, 2019 03:00:00"), y:140}),
+          new Point({x: new Date("February 14, 2019 04:00:00"), y:180}),
+          new Point({x: new Date("February 14, 2019 05:00:00"), y:40}),
+          new Point({x: new Date("February 14, 2019 06:00:00"), y:80}),
+          new Point({x: new Date("February 14, 2019 07:00:00"), y:130}),
+          new Point({x: new Date("February 14, 2019 08:00:00"), y:70}),
+          new Point({x: new Date("February 14, 2019 09:00:00"), y:30}),
+          new Point({x: new Date("February 14, 2019 10:00:00"), y:100}),
+          new Point({x: new Date("February 14, 2019 11:00:00"), y:120}),
+          new Point({x: new Date("February 14, 2019 12:00:00"), y:67}),
+          new Point({x: new Date("February 14, 2019 13:00:00"), y:35}),
+          new Point({x: new Date("February 14, 2019 14:00:00"), y:10}),
+          new Point({x: new Date("February 14, 2019 15:00:00"), y:52}),
+          new Point({x: new Date("February 14, 2019 16:00:00"), y:78}),
+          new Point({x: new Date("February 14, 2019 17:00:00"), y:109}),
+          new Point({x: new Date("February 14, 2019 18:00:00"), y:130}),
+          new Point({x: new Date("February 14, 2019 19:00:00"), y:90}),
+          new Point({x: new Date("February 14, 2019 20:00:00"), y:62}),
+          new Point({x: new Date("February 14, 2019 21:00:00"), y:94}),
+          new Point({x: new Date("February 14, 2019 22:00:00"), y:122}),
+          new Point({x: new Date("February 14, 2019 23:00:00"), y:165})
+        ]
+      }
+    }
+  }
+
+  let timelineGraph = new EZgraph(timelineProperties);
+</script>
+
+</body>
+</html>

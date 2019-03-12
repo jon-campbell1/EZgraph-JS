@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="../EZgraph.css">
+<script type="text/javascript" src="../EZgraph.js"></script>
+<title>Scatter Plot</title>
+</head>
+<body>
+
+<div id="container"></div>
+</div>
+
+<script>
+  let scatterProperties = {
+    container: document.getElementById("container"),
+    type: "scatter",
+    title: "Scatter Plot (Click and Drag to Zoom)",
+    minYValue: 0,
+    maxYValue: 100,
+    minXValue: 0,
+    maxXValue: 100,
+    height: 350,
+    width: 420,
+    xIntervals: 10,
+    yIntervals: 10,
+    xLabel: "",
+    yLabel: "",
+    hideIntervalGuides:false,
+    hideValueGuides: false,
+    disableZoom: false,
+    trendLine: true,
+    disableZoom: false,
+    graphKeyTitle: "Data Sets",
+    connected: false, // Set to "true" to show lines.
+    animate: "all", //Can also use "oneByOne"
+    data: {
+      "Data Set 2": {
+        color: "#dc3545",
+        points: [
+          new Point({x:10 , y:20}),
+          new Point({x:20, y:10}),
+          new Point({x:30, y:14}),
+          new Point({x:40, y:60}),
+          new Point({x:50, y:50}),
+          new Point({x:90, y:50}),
+          new Point({x:23, y:80}),
+          new Point({x:45, y:75}),
+          new Point({x:60, y:37})
+        ]
+      },
+      "Data Set 1": {
+        color: "#007bff",
+        points: [
+          new Point({x:20, y:56}),
+          new Point({x:40, y:72}),
+          new Point({x:60, y:40}),
+          new Point({x:80, y:47}),
+          new Point({x:90, y:89}),
+          new Point({x:60, y:47}),
+          new Point({x:65, y:27}),
+          new Point({x:50, y:77}),
+          new Point({x:70, y:86})
+        ]
+      }
+    },
+  }
+  let scatterPlot = new EZgraph(scatterProperties);
+</script>
+
+</body>
+</html>
