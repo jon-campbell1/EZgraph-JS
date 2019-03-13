@@ -1,4 +1,465 @@
 <!DOCTYPE html>
 <html>
-Hello World
+<head>
+<link rel="stylesheet" href="EZgraph.css">
+<script type="text/javascript" src="EZgraph.js?ffd"></script>
+<title>EZgraph</title>
+<style>
+html, body{
+  margin:0px; padding:0px;
+  height:2800px;
+  width:100%;
+  overflow-x:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+
+#header {
+  width:100%;
+  height:400px;
+  background-color:#e9ecef;
+  color:#3b3e40
+}
+
+#header div{
+  position:relative;
+  top:50px;
+  left:70px;
+  font-weight:normal;
+}
+
+#footer {
+  float:left;
+  width:100%;
+  text-align:center;
+  margin-top:180px;
+  margin-left:30px;
+  z-index:20;
+}
+
+span{
+  font-size:60pt;
+}
+
+p {
+  font-size:14pt;
+}
+
+button {
+  background:#007bff;
+  border-radius:5px;
+  color:white;
+  font-size:14pt;
+  padding:10px;
+  width:240px;
+  border:0px;
+  cursor:pointer;
+}
+
+button:hover {
+  background: #0067d6;
+}
+
+.titleContainer{
+  text-align:left;
+  margin-left:80px;
+}
+
+</style>
+</head>
+<body>
+<div id="header">
+  <div>
+    <span>EZgraph</span>
+    <p>
+      Generate responsive, dynamic and animatable HTML graphs using simple JavaScript.
+    </p>
+    <button onclick=window.open("https://github.com/jon-campbell1/EZgraph-JS/tree/master")>Download From Github</button>
+  </div>
+</div>
+
+<div style=width:1040px;position:relative;left:50%;margin-left:-560px;>
+<div style=float:left;margin-top:20px;width:420px;margin-right:100px;>
+<div id="container1"></div>
+</div>
+
+<div style=float:left;margin-top:20px;>
+<div id="container5"></div>
+</div>
+
+<div style=clear:left;float:left;margin-top:30px;width:420px;margin-right:100px;>
+<div id="container3"></div>
+</div>
+
+<div style=float:left;margin-top:30px;margin-bottom:50px;>
+<div id="container4"></div>
+</div>
+
+<div style=clear:left;float:left;margin-top:30px;width:420px;margin-right:100px;>
+<div id="container2"></div>
+</div>
+
+<div style=float:left;margin-top:30px;margin-bottom:20px;>
+<div id="container6"></div>
+</div>
+
+<div style=clear:left;float:left;margin-top:50px;width:420px;margin-left:400px;>
+<div id="container7"></div>
+</div>
+
+<div id="footer"><button onclick=window.open("https://github.com/jon-campbell1/EZgraph-JS/tree/master")>Download From Github</button></div>
+
+</div>
+
+<script>
+          let barGraphProperties = {
+            container: document.getElementById("container1"),
+            type: "bar",
+            title: "Bar Graph",
+            minValue: 0,
+            maxValue: 100,
+            height: 350,
+            width: 420,
+            categories: ['Jan','Feb','Mar','Apr','May'],
+            intervals: 10,
+            xLabel: "",
+            yLabel: "",
+            graphKeyTitle: "Data Sets",
+            animate: "oneByOne",
+            hideValues: false,
+            hideIntervalGuides:false,
+            hideValueGuides: false,
+            data: {
+              "Data Set 2": {
+                color: "#dc3545",
+                values: [
+                  10,70,80,90,30
+                ]
+              },
+              "Data Set 1": {
+                color: "#007bff",
+                values: [
+                  19,24,43,77,38
+                ]
+              }
+            }
+          }
+          let barGraph = new EZgraph(barGraphProperties);
+
+          var horizontalBarGraphProperties = {
+            container: document.getElementById("container2"),
+            type: "bar",
+            title: "Horizontal Bar Graph",
+            orientation: "horizontal",
+            minValue: 0,
+            maxValue: 100,
+            height: 350,
+            width: 420,
+            categories: ['Jan','Feb','Mar','Apr','May'],
+            intervals: 10,
+            xLabel: "",
+            yLabel: "",
+            graphKeyTitle: "Data Sets",
+            animate: "oneByOne",
+            hideValues: false,
+            hideIntervalGuides:false,
+            hideValueGuides: false,
+            data: {
+              "Data Set 2": {
+                color: "#dc3545",
+                values: [
+                  10,70,80,90,30
+                ]
+              },
+              "Data Set 1": {
+                color: "#007bff",
+                values: [
+                  19,24,43,77,38
+                ]
+              }
+            },
+          }
+          let horizontalBarGraph = new EZgraph(horizontalBarGraphProperties);
+
+          let timelineProperties = {
+            container: document.getElementById("container3"),
+            type: "timeline",
+            title: "Timeline",
+            minYValue: 0,
+            maxYValue: 200,
+            minXValue: new Date("February 14, 2019 00:00:00"),
+            maxXValue: new Date("February 14, 2019 23:00:00"),
+            height: 350,
+            width: 420,
+            xIntervals: 23,
+            yIntervals: 10,
+            xLabel: "",
+            yLabel: "",
+            hideValues: false,
+            hideIntervalGuides:false,
+            hideValueGuides: false,
+            disableZoom: false,
+            graphKeyTitle: "Data Sets",
+            connected: true,
+            animate:"all",
+            data: {
+              "Data Set 1": {
+                color: "#dc3545",
+                points: [
+                  new Point({x: new Date("February 14, 2019 00:00:00") , y:20}),
+                  new Point({x: new Date("February 14, 2019 01:00:00"), y:10}),
+                  new Point({x: new Date("February 14, 2019 02:00:00"), y:100}),
+                  new Point({x: new Date("February 14, 2019 03:00:00"), y:180}),
+                  new Point({x: new Date("February 14, 2019 04:00:00"), y:110}),
+                  new Point({x: new Date("February 14, 2019 05:00:00"), y:120}),
+                  new Point({x: new Date("February 14, 2019 06:00:00"), y:160}),
+                  new Point({x: new Date("February 14, 2019 07:00:00"), y:90}),
+                  new Point({x: new Date("February 14, 2019 08:00:00"), y:56}),
+                  new Point({x: new Date("February 14, 2019 09:00:00"), y:107}),
+                  new Point({x: new Date("February 14, 2019 10:00:00"), y:127}),
+                  new Point({x: new Date("February 14, 2019 11:00:00"), y:169}),
+                  new Point({x: new Date("February 14, 2019 12:00:00"), y:102}),
+                  new Point({x: new Date("February 14, 2019 13:00:00"), y:82}),
+                  new Point({x: new Date("February 14, 2019 14:00:00"), y:25}),
+                  new Point({x: new Date("February 14, 2019 15:00:00"), y:143}),
+                  new Point({x: new Date("February 14, 2019 16:00:00"), y:24}),
+                  new Point({x: new Date("February 14, 2019 17:00:00"), y:68}),
+                  new Point({x: new Date("February 14, 2019 18:00:00"), y:154}),
+                  new Point({x: new Date("February 14, 2019 19:00:00"), y:105}),
+                  new Point({x: new Date("February 14, 2019 20:00:00"), y:88}),
+                  new Point({x: new Date("February 14, 2019 21:00:00"), y:187}),
+                  new Point({x: new Date("February 14, 2019 22:00:00"), y:158}),
+                  new Point({x: new Date("February 14, 2019 23:00:00"), y:198})
+                ]
+              },
+              "Data Set 2": {
+                color: "#007bff",
+                points: [
+                  new Point({x: new Date("February 14, 2019 00:00:00") , y:70}),
+                  new Point({x: new Date("February 14, 2019 01:00:00"), y:160}),
+                  new Point({x: new Date("February 14, 2019 02:00:00"), y:20}),
+                  new Point({x: new Date("February 14, 2019 03:00:00"), y:140}),
+                  new Point({x: new Date("February 14, 2019 04:00:00"), y:180}),
+                  new Point({x: new Date("February 14, 2019 05:00:00"), y:40}),
+                  new Point({x: new Date("February 14, 2019 06:00:00"), y:80}),
+                  new Point({x: new Date("February 14, 2019 07:00:00"), y:130}),
+                  new Point({x: new Date("February 14, 2019 08:00:00"), y:70}),
+                  new Point({x: new Date("February 14, 2019 09:00:00"), y:30}),
+                  new Point({x: new Date("February 14, 2019 10:00:00"), y:100}),
+                  new Point({x: new Date("February 14, 2019 11:00:00"), y:120}),
+                  new Point({x: new Date("February 14, 2019 12:00:00"), y:67}),
+                  new Point({x: new Date("February 14, 2019 13:00:00"), y:35}),
+                  new Point({x: new Date("February 14, 2019 14:00:00"), y:10}),
+                  new Point({x: new Date("February 14, 2019 15:00:00"), y:52}),
+                  new Point({x: new Date("February 14, 2019 16:00:00"), y:78}),
+                  new Point({x: new Date("February 14, 2019 17:00:00"), y:109}),
+                  new Point({x: new Date("February 14, 2019 18:00:00"), y:130}),
+                  new Point({x: new Date("February 14, 2019 19:00:00"), y:90}),
+                  new Point({x: new Date("February 14, 2019 20:00:00"), y:62}),
+                  new Point({x: new Date("February 14, 2019 21:00:00"), y:94}),
+                  new Point({x: new Date("February 14, 2019 22:00:00"), y:122}),
+                  new Point({x: new Date("February 14, 2019 23:00:00"), y:165})
+                ]
+              }
+            }
+          }
+
+          let timelineGraph = new EZgraph(timelineProperties);
+
+          let lineGraphProperties = {
+              container: document.getElementById("container4"),
+              type: "line",
+              title: "Line Graph",
+              minValue: 0,
+              maxValue: 100,
+              height: 350,
+              width: 420,
+              categories: ['Jan','Feb','Mar','Apr','May'],
+              intervals: 10,
+              xLabel: "",
+              yLabel: "",
+              graphKeyTitle: "Data Sets",
+              animate: "oneByOne",
+              hideIntervalGuides:false,
+              hideValueGuides: false,
+              disableZoom: false,
+              data: {
+                "Data Set 2": {
+                  color: "#dc3545",
+                  values: [
+                    10,70,80,90,30
+                  ]
+                },
+                "Data Set 1": {
+                  color: "#007bff",
+                  values: [
+                    19,24,43,77,38
+                  ]
+                }
+              },
+            }
+            let lineGraph = new EZgraph(lineGraphProperties);
+
+            let bubbleProperties = {
+              container: document.getElementById("container5"),
+              type: "bubble",
+              title: "Bubble Chart - (Click and Drag to Zoom)",
+              minYValue:  0,
+              maxYValue: 200,
+              minXValue:  0,
+              maxXValue: 200,
+              height: 350,
+              width: 420,
+              xIntervals: 10,
+              yIntervals: 5,
+              xLabel: "",
+              yLabel: "",
+              animate: "all",
+              graphKeyTitle: "Data Sets",
+              hideIntervalGuides:false,
+              hideValueGuides: false,
+              disableZoom: false,
+              data: {
+                "Data Set 1": {
+                  color: "#dc3545",
+                  bubbles: [
+                    new Bubble({x:40, y:30, size:20}),
+                    new Bubble({x:50, y:70, size:50}),
+                    new Bubble({x:80, y:120, size:40}),
+                    new Bubble({x:140, y:160, size:40}),
+                    new Bubble({x:100, y:20, size:20})
+                  ]
+                },
+                "Data Set 2": {
+                  color: "#007bff",
+                  bubbles: [
+                    new Bubble({x:40, y:150, size:25}),
+                    new Bubble({x:80, y:79, size:15}),
+                    new Bubble({x:120, y:80, size:30}),
+                    new Bubble({x:180, y:50, size:40}),
+                    new Bubble({x:69, y:20, size:10})
+                  ]
+                },
+                "Data Set 3": {
+                  color: "Orange",
+                  bubbles: [
+                    new Bubble({x:10, y:40, size:25}),
+                    new Bubble({x:80, y:50, size:15}),
+                    new Bubble({x:100, y:100, size:30}),
+                    new Bubble({x:140, y:40, size:40}),
+                    new Bubble({x:180, y:90, size:25})
+                  ]
+                }
+              }
+            }
+
+            let bubbleChart = new EZgraph(bubbleProperties);
+
+
+            let scatterProperties = {
+              container: document.getElementById("container6"),
+              type: "scatter",
+              title: "Scatter Plot (Click and Drag to Zoom)",
+              minYValue: 0,
+              maxYValue: 100,
+              minXValue: 0,
+              maxXValue: 100,
+              height: 350,
+              width: 420,
+              xIntervals: 10,
+              yIntervals: 10,
+              xLabel: "",
+              yLabel: "",
+              hideIntervalGuides:false,
+              hideValueGuides: false,
+              disableZoom: false,
+              trendLine: true,
+              disableZoom: false,
+              graphKeyTitle: "Data Sets",
+              connected: false,
+              animate: "all",
+              data: {
+                "Data Set 2": {
+                  color: "#dc3545",
+                  points: [
+                    new Point({x:10 , y:20}),
+                    new Point({x:20, y:10}),
+                    new Point({x:30, y:14}),
+                    new Point({x:40, y:60}),
+                    new Point({x:50, y:58}),
+                    new Point({x:90, y:50}),
+                    new Point({x:23, y:80}),
+                    new Point({x:45, y:75}),
+                    new Point({x:60, y:37})
+                  ]
+                },
+                "Data Set 1": {
+                  color: "#007bff",
+                  points: [
+                    new Point({x:20, y:56}),
+                    new Point({x:40, y:72}),
+                    new Point({x:60, y:40}),
+                    new Point({x:80, y:47}),
+                    new Point({x:90, y:89}),
+                    new Point({x:60, y:47}),
+                    new Point({x:65, y:27}),
+                    new Point({x:50, y:77}),
+                    new Point({x:70, y:86})
+                  ]
+                },
+                "Data Set 3": {
+                  color: "#FFB802",
+                  points: [
+                    new Point({x:40, y:36}),
+                    new Point({x:60, y:22}),
+                    new Point({x:20, y:47}),
+                    new Point({x:95, y:52}),
+                    new Point({x:90, y:89}),
+                    new Point({x:33, y:47}),
+                    new Point({x:65, y:27}),
+                    new Point({x:45, y:67}),
+                    new Point({x:50, y:26})
+                  ]
+                }
+              },
+            }
+
+            let scatterPlot = new EZgraph(scatterProperties);
+
+            let pieProperties = {
+              container: document.getElementById("container7"),
+              type: "pie",
+              size: 300,
+              title: "Pie Chart",
+              graphKeyTitle: "Data Sets",
+              animate: true,
+              hideValues: false,
+              data: {
+                "Person1": {
+                  color: "#dc3545",
+                  value: 30
+                },
+                "Person2": {
+                  color: "#007BFF",
+                  value: 40
+                },
+                "Person3": {
+                  color: "#FFB802",
+                  value: 20
+                },
+                "Person4": {
+                  color: "#00B32C",
+                  value: 20
+                }
+              }
+            }
+
+            let pieChart = new EZgraph(pieProperties);
+
+
+
+</script>
+
+</body>
 </html>
+
